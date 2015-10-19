@@ -6,7 +6,6 @@ import timeit
 import time
 import re
 
-from AIs import *
 
 def timing(f):
     def wrap(*args):
@@ -57,7 +56,7 @@ class Board():
 	def optimalCounterforking(self, opposingForks):
 		if len(opposingForks) == 0:
 			return []
-		if len(opposingForks) == 2 and self.getEmptySides() != []:
+		elif len(opposingForks) == 2 and self.getEmptySides() != []:
 			emptySides = self.getEmptySides()
 			random.shuffle(emptySides)
 			return [emptySides[0]]

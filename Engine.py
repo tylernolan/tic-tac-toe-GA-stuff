@@ -11,12 +11,12 @@ class Engine():
 	def __init__(self):
 		for runs in range(0,1):
 			self.board = Board()
-			self.playerO = AI2("o") #player 2 AI
-			self.playerX = AI("x") #player 1 AI
+			self.playerO = Perfect_AI("o") #player 2 AI
+			self.playerX = Genetic_AI("x") #player 1 AI
 			self.startingPlayer = self.playerX
 			self.results = {}
-			for genCount in range(0, 10):
-				for gameCount in range(0, 10):
+			for genCount in range(0, 50):
+				for gameCount in range(0, 100):
 					self.currentPlayer = self.startingPlayer
 					result = True
 					while result == True:
@@ -29,7 +29,7 @@ class Engine():
 					gameCount += 1
 				self.playerX.nextGeneration()
 				self.playerO.nextGeneration()
-			self.displayResults()
+				self.displayResults()
 	def alternatePlayers(self):
 		if self.startingPlayer == self.playerX:
 			self.startingPlayer = self.playerO
@@ -37,7 +37,7 @@ class Engine():
 			self.startingPlayer = self.playerX
 	def newGame(self, result):
 		#alternates between the two starting players
-		self.alternatePlayers()
+		#self.alternatePlayers()
 		if result == Board.X_VICTORY:
 			self.playerX.endGame("win")
 			self.playerO.endGame("loss")
@@ -83,9 +83,14 @@ class Analyzer():
 		self.printMoveGrid(moves)
 		
 	def printMoveGrid(self, moves):
-		print(str(moves[(0, 0)]) + "|" + str(moves[(0, 1)]) + "|" + str(moves[(0, 2)]) + "\n")
-		print(str(moves[(1, 0)]) + "|" + str(moves[(1, 1)]) + "|" + str(moves[(1, 2)]) + "\n")
-		print(str(moves[(2, 0)]) + "|" + str(moves[(2, 1)]) + "|" + str(moves[(2, 2)]) + "\n")
+		str1 = str(moves[(0, 0)]) + "|" + str(moves[(0, 1)]) + "|" + str(moves[(0, 2)]) + "\n"
+		str2 = (str(moves[(1, 0)]) + "|" + str(moves[(1, 1)]) + "|" + str(moves[(1, 2)]) + "\n")
+		str3 = (str(moves[(2, 0)]) + "|" + str(moves[(2, 1)]) + "|" + str(moves[(2, 2)]) + "\n")
+		print str1 + str2 + str3
+		file = open("moves.txt", 'a')
+		file.write("\n" + str1+str2+str3)
+		file.close
+		
 		
 			
 file = open("o.txt", 'w')

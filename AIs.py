@@ -7,6 +7,7 @@ import time
 import re
 
 from Board import *
+#from Engine import *
 
 class Trait():
 	def __init__(self):
@@ -97,7 +98,7 @@ class Perfect_AI(AI):
 		if opposingForks != []:
 			# print "of"
 			# print opposingForks
-			return self._move(board, board.optimalCounterforking(opposingForks))
+			return self._move(board, board.optimalCounterforking(opposingForks)[0])
 		if board.isCenterOpen() != []:
 			# print "c"
 			return self._move(board, (1, 1))
@@ -186,12 +187,14 @@ class Genetic_AI(AI):
 			if game[1] == "draw":
 				for move in game[0]:
 					moveWinPairs[move] += 1
+					allMoves[move] += 1
 				#totalGames -= 1
 			if game[1] == "loss":
 				for move in game[0]:
 					allMoves[move] += 1
 			if game[1] == "win":
 				for move in game[0]:
+					allMoves[move] += 1
 					moveWinPairs[move] += 1
 				
 		#express strength as a percentage of total moves
@@ -208,10 +211,14 @@ class Genetic_AI(AI):
 		#add a number of copies of the move to a new list, relative to the move's relative fitness
 		retMoves = []
 		for move in allMoves:
-			for i in range (0, int(allMoves[move]*moveWinPairs[move]*100)):
+			for i in range (0, int(allMoves[move]*moveWinPairs[move]*10)):
 				retMoves.append(move)
 		self.weightedMoves = retMoves
 		self.prevGamesMoves = []
+		#cnt = Counter()
+		#for move in retMoves:
+		#	cnt[move] += 1
+		#print cnt
 		
 	def makeMove(self, board):
 		if self.weightedMoves == []:
